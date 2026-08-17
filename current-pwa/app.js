@@ -486,7 +486,16 @@ function createFounderCard(profile, page) {
   `;
 
   const image = node.querySelector(".founder-reel-bg");
+  image.tabIndex = 0;
+  image.setAttribute("role", "button");
+  image.setAttribute("aria-label", `查看 ${page.company} landing page 大图`);
   image.addEventListener("error", () => node.classList.add("has-fallback"));
+  image.addEventListener("click", () => showDetails(profile.pageId));
+  image.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    showDetails(profile.pageId);
+  });
 
   node.querySelector(".reel-like").addEventListener("click", () => {
     toggleFounderLike(profile.id);

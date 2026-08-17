@@ -1,4 +1,4 @@
-const CACHE_NAME = "pagefeed-mvp-v13";
+const CACHE_NAME = "pagefeed-mvp-v17";
 const ASSETS = [
   "./",
   "./index.html",
