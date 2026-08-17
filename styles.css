@@ -3304,14 +3304,12 @@ select {
 .founder-reel-card {
   position: relative;
   display: grid;
-  align-items: end;
+  align-items: stretch;
   min-height: 100%;
   overflow: hidden;
   scroll-snap-align: start;
   scroll-snap-stop: always;
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.08), transparent 34%),
-    #05070d;
+  background: #05070d;
   color: #fff;
   isolation: isolate;
 }
@@ -3324,12 +3322,24 @@ select {
 }
 
 .founder-reel-bg {
+  top: 0;
+  bottom: auto;
+  z-index: 0;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: calc(100% - 265px);
+  min-height: 360px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: #fff;
+  object-fit: contain;
   object-position: top center;
-  filter: saturate(1.04) brightness(0.76);
-  transform: scale(1.04);
+  filter: none;
+  transform: none;
+  cursor: zoom-in;
+}
+
+.founder-reel-bg:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--founder-accent), #fff 20%);
+  outline-offset: -5px;
 }
 
 .founder-reel-card.has-fallback .founder-reel-bg {
@@ -3352,18 +3362,23 @@ select {
 }
 
 .founder-reel-shade {
+  inset: auto 0 0;
   z-index: 1;
-  background:
-    linear-gradient(180deg, rgba(5, 7, 13, 0.1) 0%, rgba(5, 7, 13, 0.2) 34%, rgba(5, 7, 13, 0.92) 100%),
-    linear-gradient(90deg, rgba(5, 7, 13, 0.72), rgba(5, 7, 13, 0.18) 48%, rgba(5, 7, 13, 0.68));
+  height: 315px;
+  background: linear-gradient(180deg, rgba(5, 7, 13, 0), #05070d 48px, #05070d 100%);
 }
 
 .founder-copy {
   position: relative;
   z-index: 2;
   display: grid;
-  gap: 10px;
-  padding: 30px 96px 32px 20px;
+  align-self: end;
+  gap: 7px;
+  min-height: 265px;
+  padding: 20px 94px 24px 20px;
+  background:
+    linear-gradient(180deg, rgba(5, 7, 13, 0), rgba(5, 7, 13, 0.98) 28px),
+    rgba(5, 7, 13, 0.96);
 }
 
 .founder-identity {
@@ -3414,19 +3429,27 @@ select {
 }
 
 .founder-copy h2 {
-  max-width: 12em;
-  font-size: clamp(27px, 8vw, 43px);
-  line-height: 1.02;
+  display: -webkit-box;
+  max-width: 13em;
+  overflow: hidden;
+  font-size: clamp(23px, 5.8vw, 31px);
+  line-height: 1.06;
   font-weight: 950;
   letter-spacing: 0;
   text-shadow: 0 12px 30px rgba(0, 0, 0, 0.34);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .founder-pitch {
+  display: -webkit-box;
   max-width: 29em;
+  overflow: hidden;
   color: rgba(255, 255, 255, 0.82);
-  font-size: 14px;
-  line-height: 1.48;
+  font-size: 13px;
+  line-height: 1.42;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .founder-tags {
@@ -3449,10 +3472,10 @@ select {
 .founder-actions {
   position: absolute;
   right: 14px;
-  bottom: 82px;
+  bottom: 0;
   z-index: 3;
   display: grid;
-  gap: 12px;
+  gap: 8px;
   justify-items: center;
 }
 
@@ -3460,7 +3483,7 @@ select {
   display: grid;
   justify-items: center;
   gap: 5px;
-  width: 62px;
+  width: 56px;
   border: 0;
   background: transparent;
   color: #fff;
@@ -3471,13 +3494,13 @@ select {
 .reel-action span {
   display: grid;
   place-items: center;
-  width: 52px;
-  height: 52px;
+  width: 44px;
+  height: 44px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.13);
   box-shadow: 0 14px 32px rgba(0, 0, 0, 0.22);
-  font-size: 24px;
+  font-size: 20px;
   line-height: 1;
   backdrop-filter: blur(14px);
   transition:
@@ -3649,8 +3672,8 @@ select {
 
   .founder-actions {
     right: 9px;
-    bottom: 72px;
-    gap: 10px;
+    bottom: 0;
+    gap: 8px;
   }
 
   .reel-action {
@@ -3658,7 +3681,7 @@ select {
   }
 
   .reel-action span {
-    width: 48px;
-    height: 48px;
+    width: 42px;
+    height: 42px;
   }
 }
