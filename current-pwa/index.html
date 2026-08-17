@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f4f5f7" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="PageFeed" />
+    <meta
+      name="description"
+      content="像刷信息流一样发现、拆解和收藏高转化 landing page。"
+    />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icon.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>PageFeed MVP</title>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="top-bar">
+        <div class="brand-lockup" aria-label="PageFeed">
+          <div class="brand-mark">P</div>
+          <div>
+            <div class="brand-name">PageFeed</div>
+            <div class="brand-line">Landing pages worth stealing ethically</div>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button class="icon-button" id="search-toggle" aria-label="搜索">
+            <span aria-hidden="true">⌕</span>
+          </button>
+          <button class="icon-button install-button" id="install-button" aria-label="安装到桌面">
+            <span aria-hidden="true">⇩</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="screen">
+        <section class="view active" id="founder-view" aria-label="创始人短流">
+          <div class="founder-reel" id="founder-reel" aria-label="创始人项目流"></div>
+        </section>
+
+        <section class="view" id="feed-view" aria-label="Feed">
+          <div class="search-panel" id="search-panel">
+            <input id="search-input" type="search" placeholder="搜索行业、公司、CTA、痛点" />
+          </div>
+
+          <div class="hero-strip">
+            <div>
+              <p class="eyebrow">Today’s Swipe File</p>
+              <h1>刷公司官网，顺手拆转化。</h1>
+            </div>
+            <div class="hero-stat">
+              <strong id="visible-count">0</strong>
+              <span>pages</span>
+            </div>
+          </div>
+
+          <div class="segments" role="tablist" aria-label="页面类型">
+            <button class="segment active" data-filter="all" role="tab">全部</button>
+            <button class="segment" data-filter="ai" role="tab">AI</button>
+            <button class="segment" data-filter="saas" role="tab">SaaS</button>
+            <button class="segment" data-filter="devtool" role="tab">Devtool</button>
+            <button class="segment" data-filter="commerce" role="tab">Commerce</button>
+          </div>
+
+          <div class="feed-stack" id="feed-stack"></div>
+        </section>
+
+        <section class="view" id="saved-view" aria-label="收藏">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Swipe File</p>
+              <h2>收藏</h2>
+            </div>
+            <span class="count-pill" id="saved-count">0</span>
+          </div>
+          <div class="saved-grid" id="saved-grid"></div>
+          <div class="empty-state" id="saved-empty">
+            <strong>还没有收藏</strong>
+            <span>遇到值得参考的首屏、CTA 或定位，点收藏。</span>
+          </div>
+        </section>
+
+        <section class="view" id="remix-view" aria-label="Remix">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">AI Remix</p>
+              <h2>把别人的结构，改成你的版本</h2>
+            </div>
+          </div>
+
+          <form class="remix-panel" id="remix-form">
+            <label>
+              参考页面
+              <select id="source-page"></select>
+            </label>
+            <label>
+              我的产品
+              <textarea
+                id="product-brief"
+                rows="4"
+                placeholder="比如：给外贸团队用的 AI 客户邮件回复工具，目标用户是 10-50 人的小团队。"
+              ></textarea>
+            </label>
+            <label>
+              想要的语气
+              <select id="tone-select">
+                <option value="sharp">直接、锋利</option>
+                <option value="warm">温和、可信</option>
+                <option value="technical">技术、专业</option>
+                <option value="playful">轻松、有梗</option>
+              </select>
+            </label>
+            <button class="primary-button" type="submit">生成首屏</button>
+          </form>
+
+          <div class="remix-output" id="remix-output" aria-live="polite"></div>
+        </section>
+
+        <section class="view" id="profile-view" aria-label="我的">
+          <div class="profile-card">
+            <div class="profile-mark">PF</div>
+            <div>
+              <p class="eyebrow">MVP status</p>
+              <h2>PageFeed Alpha</h2>
+              <p class="muted">本地 PWA 原型。收藏和 Remix 会保存在当前浏览器里。</p>
+            </div>
+          </div>
+
+          <div class="metric-grid">
+            <div class="metric-tile">
+              <strong id="metric-pages">0</strong>
+              <span>精选页面</span>
+            </div>
+            <div class="metric-tile">
+              <strong id="metric-saved">0</strong>
+              <span>已收藏</span>
+            </div>
+            <div class="metric-tile">
+              <strong id="metric-remix">0</strong>
+              <span>Remix</span>
+            </div>
+          </div>
+
+          <div class="roadmap-list">
+            <div class="investor-profile" id="investor-profile-card">
+              <div>
+                <p class="eyebrow">Investor Lens</p>
+                <h3 id="investor-profile-title">还没设置投资偏好</h3>
+                <p id="investor-profile-summary">设置你的关注领域、阶段和项目规模，Feed 会用投资人口径解释每个页面。</p>
+              </div>
+              <button class="secondary-button" id="edit-investor-profile" type="button">设置</button>
+            </div>
+            <div class="roadmap-item done">
+              <span></span>
+              <p>移动端 feed、筛选、收藏、本地 Remix</p>
+            </div>
+            <div class="roadmap-item">
+              <span></span>
+              <p>接 Supabase 登录、云端收藏夹</p>
+            </div>
+            <div class="roadmap-item">
+              <span></span>
+              <p>接 Playwright 截图和 AI 结构化拆解</p>
+            </div>
+            <div class="roadmap-item">
+              <span></span>
+              <p>开放 URL 提交和人工精选审核队列</p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <nav class="bottom-nav" aria-label="主导航">
+        <button class="nav-item active" data-view="founder-view" aria-label="创始人">
+          <span aria-hidden="true">▶</span>
+          <b>创始人</b>
+        </button>
+        <button class="nav-item" data-view="feed-view" aria-label="页面">
+          <span aria-hidden="true">▥</span>
+          <b>页面</b>
+        </button>
+        <button class="nav-item" data-view="saved-view" aria-label="收藏">
+          <span aria-hidden="true">♡</span>
+          <b>收藏</b>
+        </button>
+        <button class="nav-item" data-view="remix-view" aria-label="Remix">
+          <span aria-hidden="true">✦</span>
+          <b>Remix</b>
+        </button>
+        <button class="nav-item" data-view="profile-view" aria-label="我的">
+          <span aria-hidden="true">◌</span>
+          <b>我的</b>
+        </button>
+      </nav>
+    </div>
+
+    <dialog class="detail-sheet" id="detail-sheet">
+      <div class="sheet-handle"></div>
+      <div id="detail-content"></div>
+      <button class="sheet-close" id="detail-close" aria-label="关闭">×</button>
+    </dialog>
+
+    <dialog class="dm-sheet" id="dm-sheet" aria-labelledby="dm-title">
+      <div class="sheet-handle"></div>
+      <button class="sheet-close" id="dm-close" aria-label="关闭">×</button>
+      <div id="dm-content"></div>
+      <form class="dm-form" id="dm-form">
+        <textarea
+          id="dm-message-input"
+          rows="4"
+          placeholder="写一句你想问创始人的话，比如：想了解你们现在最想见哪类投资人？"
+        ></textarea>
+        <button class="primary-button" type="submit">发送 DM</button>
+      </form>
+    </dialog>
+
+    <template id="page-card-template">
+      <article class="page-card">
+        <div class="thumb-wrap">
+          <img class="page-thumb" alt="" loading="lazy" />
+          <div class="thumb-fallback"></div>
+          <div class="thumb-caption">
+            <span class="domain"></span>
+            <span class="page-kind"></span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-topline">
+            <div>
+              <h3></h3>
+              <p class="company"></p>
+            </div>
+            <button class="save-button" aria-label="收藏页面">♡</button>
+          </div>
+          <p class="summary"></p>
+          <div class="investor-strip">
+            <span>投资人看点</span>
+            <strong class="investor-thesis"></strong>
+          </div>
+          <div class="tag-row"></div>
+          <div class="insight-grid">
+            <div>
+              <span>Offer</span>
+              <strong class="offer"></strong>
+            </div>
+            <div>
+              <span>CTA</span>
+              <strong class="cta"></strong>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="secondary-button details-button">拆解</button>
+            <button class="ghost-button remix-button">Remix</button>
+            <a class="ghost-button open-link" target="_blank" rel="noreferrer">打开</a>
+          </div>
+        </div>
+      </article>
+    </template>
+
+    <dialog class="investor-onboarding" id="investor-dialog">
+      <section class="kyc-card" aria-labelledby="kyc-title">
+        <div class="kyc-topline">
+          <span class="kyc-logo">PageFeed</span>
+          <div class="kyc-header-actions">
+            <span id="kyc-step-label">第 1 / 5 步</span>
+            <button class="kyc-close" id="skip-investor-profile" type="button" aria-label="跳过设置">
+              跳过
+            </button>
+          </div>
+        </div>
+        <div class="kyc-progress" aria-hidden="true">
+          <span id="kyc-progress-fill"></span>
+        </div>
+
+        <form id="investor-form" method="dialog">
+          <div class="kyc-step-window" aria-live="polite">
+            <div class="kyc-step-track" id="kyc-step-track">
+              <section class="kyc-step active" data-step="0">
+                <p class="eyebrow">投资人偏好</p>
+                <h2 id="kyc-title"><span class="kyc-number">1</span>你主要看什么领域？</h2>
+                <p>先决定信号源。之后每张 landing page 都会按这个投资视角解释。</p>
+                <div class="choice-grid" data-key="field">
+                  <button class="choice-card" type="button" data-value="AI / Agent">
+                    <span>AI / Agent</span>
+                    <small>自动化、Copilot、垂直 Agent</small>
+                  </button>
+                  <button class="choice-card" type="button" data-value="Devtool / Infra">
+                    <span>Devtool / Infra</span>
+                    <small>开发者工具、云、数据库、API</small>
+                  </button>
+                  <button class="choice-card" type="button" data-value="B2B SaaS">
+                    <span>B2B SaaS</span>
+                    <small>工作流、团队协作、垂直软件</small>
+                  </button>
+                  <button class="choice-card" type="button" data-value="Commerce / Cross-border">
+                    <span>Commerce / Cross-border</span>
+                    <small>电商、出海、支付、供应链</small>
+                  </button>
+                  <button class="choice-card" type="button" data-value="Fintech / Payments">
+                    <span>Fintech / Payments</span>
+                    <small>交易、风控、金融基础设施</small>
+                  </button>
+                </div>
+              </section>
+
+              <section class="kyc-step" data-step="1">
+                <p class="eyebrow">Stage focus</p>
+                <h2><span class="kyc-number">2</span>你想找什么阶段？</h2>
+                <p>我们会用不同口径看页面：早期看速度和人群，成长期看收入、留存和扩张。</p>
+                <div class="choice-grid compact" data-key="stage">
+                  <button class="choice-card" type="button" data-value="Pre-seed">
+                    <span>Pre-seed</span>
+                    <small>看问题锋利度和创始人直觉</small>
+                  </button>
+                  <button class="choice-card" type="button" data-value="Seed">
+                    <span>Seed</span>
+                    <small>看 ICP、早期收入和分发</small>
+                  </button>
+                  <button class="choice-card" type="button" data-value="Series A">
+                    <span>Series A</span>
+                    <small>看 PMF、复购、团队销售</small>
+                  </button>
+                  <button class="choice-card" type="button" data-value="Growth">
+                    <span>Growth</span>
+                    <small>看规模、效率和品类位置</small>
+                  </button>
+                </div>
+              </section>
+
+              <section class="kyc-step" data-step="2">
+                <p class="eyebrow">Scale signal</p>
+                <h2><span class="kyc-number">3</span>你要什么规模信号？</h2>
+                <p>这一步决定 PageFeed 更关注“刚冒头的项目”还是“已经有收入曲线的公司”。</p>
+                <div class="choice-grid compact" data-key="scale">
+                  <button class="choice-card" type="button" data-value="0-100k ARR / 未商业化">
+                    <span>0-100k ARR</span>
+                    <small>idea 到最早收入</small>
+                  </button>
+                  <button class="choice-card" type="button" data-value="100k-1M ARR">
+                    <span>100k-1M ARR</span>
+                    <small>早期商业化已出现</small>
+                  </button>
+                  <button class="choice-card" type="button" data-value="1M-10M ARR">
+                    <span>1M-10M ARR</span>
+                    <small>看销售效率和留存</small>
+                  </button>
+                  <button class="choice-card" type="button" data-value="10M+ ARR / 成熟增长">
+                    <span>10M+ ARR</span>
+                    <small>看扩张和平台化</small>
+                  </button>
+                </div>
+              </section>
+
+              <section class="kyc-step" data-step="3">
+                <p class="eyebrow">Market focus</p>
+                <h2><span class="kyc-number">4</span>你主要看哪个市场？</h2>
+                <p>选择后，Feed 会优先用对应市场的商业化、分发和竞争口径解读页面。</p>
+                <div class="market-row" data-key="region">
+                  <button type="button" data-value="Global">Global</button>
+                  <button type="button" data-value="US / Europe">US / Europe</button>
+                  <button type="button" data-value="China">China</button>
+                  <button type="button" data-value="Cross-border">Cross-border</button>
+                </div>
+              </section>
+
+              <section class="kyc-step" data-step="4">
+                <p class="eyebrow">Thesis</p>
+                <h2><span class="kyc-number">5</span>最后，写一句你的 thesis</h2>
+                <p>不用写长。像投委会 memo 的标签一样，告诉系统你想被什么项目打动。</p>
+                <textarea
+                  id="investor-thesis-input"
+                  rows="4"
+                  placeholder="比如：小团队、AI 原生工作流、PLG、能看到早期商业化。"
+                ></textarea>
+                <button class="primary-button kyc-ok-button" id="kyc-submit" type="submit">OK</button>
+                <div class="kyc-summary" id="kyc-summary"></div>
+              </section>
+            </div>
+          </div>
+
+          <div class="onboarding-actions" aria-label="KYC 导航">
+            <button class="ghost-button" id="kyc-back" type="button" aria-label="上一步">上一步</button>
+            <button class="primary-button" id="kyc-next" type="button" aria-label="下一步">下一步</button>
+          </div>
+        </form>
+      </section>
+    </dialog>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
